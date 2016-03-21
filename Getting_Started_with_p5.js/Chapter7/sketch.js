@@ -14,7 +14,7 @@ function preload() {
 }
 
 function setup() {
-   createCanvas(360, 480);
+   createCanvas(720, 480);
 }
 
 function draw() {
@@ -25,7 +25,7 @@ function draw() {
 
     // Set the left/right offset and apply easing to make
     // the transistion smooth
-    var targetOfflet = map(mouseY, 0, height, -40, 40);
+    var targetOffset = map(mouseY, 0, height, -40, 40);
     offset += (targetOffset - offset) * easing;
 
     // Draw the left robot

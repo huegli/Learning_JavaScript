@@ -1,0 +1,32 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+  <head>
+    <meta charset="utf8">
+    <title>Bubble Shooter</title>
+    <link href="css/main.css" rel="stylesheet">
+    <script src="js/modernizr.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/game.js"></script>
+    <script>function init(){
+          var game = new BubbleShoot.Game();
+          game.init();
+        }
+     </script>
+  </head>
+    <body onload="init()">
+    <div id="page">
+        <div id="top_bar"></div>
+        <div id="game"></div>
+        <div id="footer_bar"></div>
+          <div id="start_game" class="dialog">
+              <div id="start_game_message">
+                  <h2>Start a new game</h2>
+              </div>
+              <div class="but_start_game button">
+                  New Game
+              </div>
+           </div>
+    </div>
+  </body>
+</html>

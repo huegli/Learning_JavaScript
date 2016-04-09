@@ -8,7 +8,9 @@
     <script src="js/jquery.min.js"></script>
     <script async src="js/modernizr.js"></script>
     <script async src="js/ui.js"></script>
+    <script async src="js/collision-detector.js"></script>
     <script async src="js/bubble.js"></script>
+    <script async src="js/board.js"></script>
     <script async src="js/game.js"></script>
     <script>function init(){
           var game = new BubbleShoot.Game();
@@ -19,8 +21,10 @@
     <body onload="init()">
     <div id="page">
         <div id="top_bar"></div>
-        <div id="game"></div>
+        <div id="game">
           <div id="board"></div>
+          <div id="bubbles_remaining"></div>
+        </div>
         <div id="footer_bar"></div>
           <div id="start_game" class="dialog">
               <div id="start_game_message">

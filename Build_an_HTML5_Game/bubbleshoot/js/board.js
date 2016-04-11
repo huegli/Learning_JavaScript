@@ -20,15 +20,15 @@ BubbleShoot.Board = (function($){
             bubble.setRow(rowNum);
             bubble.setCol(colNum);
         };
-        this.getBubbleAt = function(rowNun, colNum){
-            this(!this.getRows()[rowNum])
+        this.getBubbleAt = function(rowNum, colNum){
+            if(!this.getRows()[rowNum])
                 return null;
             return this.getRows()[rowNum][colNum];
         };
         this.getBubblesAround= function(curRow,curCol){
             var bubbles = [];
             for(var rowNum = curRow - 1;rowNum <= curRow+1; rowNum++){
-                for(var colNum = corCol-2; colNum <= curCol+2; colNum++){
+                for(var colNum = curCol-2; colNum <= curCol+2; colNum++){
                     var bubbleAt = that.getBubbleAt(rowNum,colNum);
                     if(bubbleAt && !(colNum == curCol && rowNum == curRow))
                         bubbles.push(bubbleAt);
@@ -36,7 +36,7 @@ BubbleShoot.Board = (function($){
             };
             return bubbles;
         };
-        this.getGroup = function(bubble,found){
+        this.getGroup = function(bubble,found,differentColor){
             var curRow = bubble.getRow();
             if(!found[curRow])
                 found[curRow] = {};
@@ -50,7 +50,44 @@ BubbleShoot.Board = (function($){
             var curCol = bubble.getCol();
             var surrounding = that.getBubblesAround(curRow,curCol);
             for(var i=0;i<surrounding.length;i++){
-
+                var bubbleAt = surrounding[i];
+                if(bubbleAt.getType() == bubble.getType() || differentColor){
+                    found = that.getGroup(bubbleAt,found,differentColor);
+                };
+            };
+            return found;
+        };
+        this.popBubbleAt = function(rowNum,colNum){
+            var row = rows[rowNum];
+            delete row[colNum];
+        };
+        this.findOrphans = function(){
+            var connected = [];
+            var groups = [];
+            var rows = that.getRows();
+            for(var i=0;i<rows.length;i++){
+                connected[i] = [];
+            };
+            for(var i=0;i<rows[0].length;i++){
+                var bubble = that.getBubbleAt(0,i);
+                if(bubble && !connected[0][i]){
+                    var group = that.getGroup(bubble,{},true);
+                    $.each(group.list,function(){
+                        connected[this.getRow()][this.getCol()] = true;
+                    });
+                };
+            };
+            var orphaned = [];
+            for (var i=0;i<rows.length;i++){
+                for(var j=0;j<rows[i].length;j++){
+                    var bubble = that.getBubbleAt(i,j);
+                    if(bubble && !connected[i][j]){
+                        orphaned.push(bubble);
+                    };
+                };
+            };
+            return orphaned;
+        };
         return this;
     };
     var createLayout = function(){

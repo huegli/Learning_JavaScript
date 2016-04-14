@@ -4,10 +4,12 @@
         maxY : 800
     };
     var toMove = [];
+    var prevTime;
     jQuery.fn.kaboom = function(settings){
         var config = $.extend({}, defaults, settings);
         if(toMove.length == 0){
-            setTimeout(moveAll,40);
+            prevTime = Date.now();
+            requestAnimationFrame(moveAll);
         };
         var dx = Math.round(Math.random() * 10) - 5;
         var dy = Math.round(Math.random() * 5) + 5;
@@ -21,7 +23,10 @@
         });
     };
     var moveAll = function(){
-        var frameProportion = 1;
+        var newTime = Date.now();
+        var elapsed = newTime - prevTime;
+        var frameProportion = elapsed / 25;
+        prevTime = newTime;
         var stillToMove = [];
         for(var i=0;i<toMove.length;i++){
             var obj = toMove[i];
@@ -40,6 +45,6 @@
         };
         toMove = stillToMove;
         if(toMove.length > 0)
-            setTimeout(moveAll,40);
+            requestAnimationFrame(moveAll);
     };
 })(jQuery);
